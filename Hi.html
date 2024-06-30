@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Neha!</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f0f0f0;
+        }
+
+        .bg {
+            height: 100%; 
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: white;
+            text-align: center;
+            font-style: italic;
+            z-index: 3;
+            display: none;
+        }
+
+        .tap {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 150px;
+            text-align: center;
+            color: white;
+            font-style: italic;
+            line-height: 1.5;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .button-container {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: none;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .popup .message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .close-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .heart-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: red;
+            transform: rotate(45deg);
+            animation: burst 1s ease-in-out;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -15px;
+            top: 0;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .after-close-text {
+            display: none;
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            color: white;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.5;
+            z-index: 6;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="centered">Many more happy returns of the day.<br> Happy Birthday, Neha!💖</div>
+    <div class="tap" onclick="showText()">Click Here</div>
+    <div class="button-container" id="buttonContainer1">
+        <button onclick="showPopup('popup1')">Click Here</button>
+    </div>
+    <div class="button-container" id="buttonContainer2">
+        <button onclick="showPopup('popup2')">Click Here Again</button>
+    </div>
+    <div id="popup1" class="popup">
+        <div class="message">
+            Happy Birthday, Penguin!♥
+<br>
+            You're special, and when I say special, I mean very, very special to me. May your special day be filled with joy and laughter. Wishing you all the happiness, love, and success in the world, and the best of everything.
+
+I'm grateful for all the moments we've shared together and the memories we've made. Thank you for all of that, and I'm wishing you the best for all the days yet to come! ❤️🎉
+
+<br>
+            
+        </div>
+        <button class="close-btn" onclick="closePopup('popup1')">Close</button>
+    </div>
+    <div id="popup2" class="popup">
+        <div class="message">
+            I promise you, I will always:<br>
+            Support you<br>
+            Protect you<br>
+            Care for you<br>
+            Love you<br>
+            No matter what happens, I’ll always choose you. 🫶❤️<br>
+            
+
+        </div>
+        <button class="close-btn" onclick="closePopup('popup2')">Close</button>
+    </div>
+    <div id="heartContainer" class="heart-container"></div>
+    <div id="afterCloseText" class="after-close-text">
+        <!-- Additional text after closing -->
+    </div>
+
+    <script>
+        let currentPopup = null;
+
+        function showText() {
+            document.querySelector('.tap').style.display = 'none';
+            document.querySelector('.centered').style.display = 'block';
+            document.getElementById('buttonContainer1').style.display = 'block';
+        }
+
+        function showPopup(popupId) {
+            if (currentPopup) {
+                document.getElementById(currentPopup).style.display = 'none';
+            }
+            document.getElementById(popupId).style.display = 'block';
+            currentPopup = popupId;
+
+            burstHearts();  // Trigger heart burst animation
+
+            if (popupId === 'popup1') {
+                document.getElementById('buttonContainer1').style.display = 'none';
+                document.getElementById('buttonContainer2').style.display = 'block';
+            }
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+            setTimeout(function() {
+                document.getElementById('afterCloseText').style.display = 'block';
+            }, 1000);
+        }
+
+        function burstHearts() {
+            const heartContainer = document.getElementById('heartContainer');
+            heartContainer.style.display = 'block';
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heartContainer.appendChild(heart);
+                setTimeout(() => heart.remove(), 10000);
+            }
+            setTimeout(() => heartContainer.style.display = 'none', 1000);
+        }
+    </script>
+</body>
+</html>
